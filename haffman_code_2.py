@@ -35,7 +35,10 @@ def create_tree(sym, symcount):
             elemcount1 = tmp1
             tempsym.pop(tmp1index)
             tempsymcount.pop(tmp1index)
-            code[elem1] = '0' + code[elem1]
+            if elem1 in code.keys():
+                code[elem1] = '0' + code[elem1]
+            else:
+                code[elem1] = '0'
         else:
             break
 
@@ -47,7 +50,10 @@ def create_tree(sym, symcount):
             elemcount2 = tmp2
             tempsym.pop(tmp2index)
             tempsymcount.pop(tmp2index)
-            code[elem1] = '1' + code[elem1]
+            if elem2 in code.keys():
+                code[elem2] = '1' + code[elem2]
+            else:
+                code[elem2] = '1'
         else:
             break
 
