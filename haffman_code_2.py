@@ -1,4 +1,4 @@
-# --- File:         haffman_code_1.py
+# --- File:         haffman_code_2.py
 # --- Project:      algoritm cource in Stepik.org
 # --- Author:       O.Trushman
 # --- Data:         11/01/2021
