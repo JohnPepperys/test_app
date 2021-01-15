@@ -1,7 +1,7 @@
 # --- File:         haffman_code_2.py
 # --- Project:      algoritm cource in Stepik.org
 # --- Author:       O.Trushman
-# --- Data:         11/01/2021
+# --- Data:         15/01/2021
 
 def my_bubles_sort(s1, s2):
     lenstr = len(s1)
@@ -35,10 +35,11 @@ def create_tree(sym, symcount):
             elemcount1 = tmp1
             tempsym.pop(tmp1index)
             tempsymcount.pop(tmp1index)
-            if elem1 in code.keys():
-                code[elem1] = '0' + code[elem1]
-            else:
-                code[elem1] = '0'
+            for j in range(len(elem1)):
+                if elem1[j] in code.keys():
+                    code[elem1[j]] = '0' + code[elem1[j]]
+                else:
+                    code[elem1[j]] = '0'
         else:
             break
 
@@ -50,19 +51,32 @@ def create_tree(sym, symcount):
             elemcount2 = tmp2
             tempsym.pop(tmp2index)
             tempsymcount.pop(tmp2index)
-            if elem2 in code.keys():
-                code[elem2] = '1' + code[elem2]
-            else:
-                code[elem2] = '1'
+            for j in range(len(elem2)):
+                if elem2[j] in code.keys():
+                    code[elem2[j]] = '1' + code[elem2[j]]
+                else:
+                    code[elem2[j]] = '1'
         else:
             break
 
         # --- append new element
-        tempsym.append(elem1 + elem2)
-        tempsymcount.append(elemcount1 + elemcount2)
-
+        if len(tempsym) != 0:
+            tempsym.append(elem1 + elem2)
+            tempsymcount.append(elemcount1 + elemcount2)
+        else:
+            break
         #print(elem1, elemcount1, elem2, elemcount2, len(tempsymcount))
-        print(code)
+    return code
+
+
+# -------------------------------------------------------------------------------------------------
+
+def encode_string(s, code):
+    news = ''
+    for i in range(len(s)):
+        news += code[s[i]]
+
+    return news
 
 # ------------------------------- MAIN ------------------------------------------------------------
 # ------------------------------- MAIN ------------------------------------------------------------
@@ -72,7 +86,6 @@ instringlen = len(instring)
 
 sym = []
 symcount = []
-code = []
 
 for i in range(instringlen):
     if instring[i] in sym:
@@ -83,8 +96,13 @@ for i in range(instringlen):
         symcount.append(1)
 
 symcount, sym = my_bubles_sort(symcount, sym)
-create_tree(sym, symcount)
+code = create_tree(sym, symcount)
 
-print(sym, len(sym))
+print(sym)
 print(symcount)
+print(code)
+
+newstring = encode_string(instring, code)
+print(instring, ':', newstring, len(newstring))
+
 
