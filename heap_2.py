@@ -4,7 +4,6 @@
 # ---------- data:      17/01/2021
 
 # ---------------------------------------------------------------------------------------------------------
-
 def my_Check_Last_Element_in_Heap(nowpos):
     global heap
     heapsize = len(heap)
@@ -40,7 +39,7 @@ def my_Insert_Heap(num):
         qq = len(heap)
         my_Check_Last_Element_in_Heap(qq - 1)
 
-    print(heap)
+    #print(heap)
 
 # ---------------------------------------------------------------------------------------------------------
 
@@ -55,20 +54,20 @@ def my_ExtractMax_Heap():
     while i < heapsize:
         # print(i, heapsize, heap)
         if heapsize > (2 * i + 2):
-            if heap[i + 1] > heap[i + 2]:
-                heap[i], heap[i+1] = heap[i+1], heap[0]
+            if heap[2 * i + 1] > heap[2 * i + 2]:
+                heap[i], heap[2 * i + 1] = heap[2 * i + 1], heap[i]
                 i = i * 2 + 1
             else:
-                heap[i], heap[i + 2] = heap[i + 2], heap[0]
+                heap[i], heap[2 * i + 2] = heap[2 * i + 2], heap[i]
                 i = i * 2 + 2
         elif heapsize > (2 * i + 1):
-            heap[i], heap[i + 1] = heap[i + 1], heap[0]
+            heap[i], heap[2 * i + 1] = heap[2 * i + 1], heap[i]
             i = i * 2 + 1
             break
         else:
             break
 
-    print(heap)
+    # print(maxval, heap)
     return maxval
 
 # ----------------- MAIN ---------------------------------------------------------
