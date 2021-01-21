@@ -1,7 +1,7 @@
 # ---------- file:      heap_3.py
 # ---------- project:   test_algoritms
 # ---------- author:    O.Trushman
-# ---------- data:      19/01/2021
+# ---------- data:      21/01/2021
 
 
 
@@ -15,9 +15,8 @@ def my_Check_Last_Element_in_Heap(heap, nowpos):
             heap[i], heap[(i - 1) // 2] = heap[(i - 1) // 2], heap[i]
         else:
             break
-        i = i // 2
+        i = (i - 1) // 2
 
-        # print(i, heap)
     if heap[0] < heap[1]:
         heap[0], heap[1] = heap[1], heap[0]
     elif heapsize > 2 and heap[0] < heap[2]:
@@ -47,7 +46,6 @@ def q_extract_max(heap):
     heapsize = len(heap)
     i = 0
     while i < heapsize:
-        # print(i, heapsize, heap)
         if heapsize > (2 * i + 2):          
             if heap[2 * i + 1] > heap[2 * i + 2]:
                 if heap[i] < heap[2 * i + 1]:
@@ -70,27 +68,7 @@ def q_extract_max(heap):
         else:
             break
 
-    # print(maxval, heap)
     return maxval
 
 # ---------------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------------------------
-
-
-# ----------------- MAIN ---------------------------------------------------------
-# -------------------------------- MAIN ------------------------------------------
-#heap = []
-#extract = []
-
-#n = int(input())
-#for i in range(n):
-#    s = input()
-#    if 'Insert ' in s:
-#        tmp = s.split(' ')
-#        q_insert(int(tmp[1]))
-
-#    if 'ExtractMax' in s:
-#        extract.append(q_extract_max())
-
-#for i in range(len(extract)):
-#    print(extract[i])
