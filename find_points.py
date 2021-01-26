@@ -1,55 +1,51 @@
 # ---------- file:      find_points.py
 # ---------- project:   test_algoritms
 # ---------- author:    O.Trushman
-# ---------- data:      25/01/2021
+# ---------- data:      26/01/2021
 
 # ---------------------------------------------------------------------------------------------------------
-import random
 import time
 
 # ---------------------------------------------------------------------------------------------------------
-def object_sort(s, s1):
+def object_sort(s):
     newlist = []
-    nl1 = []
     lenstr = len(s)
     part1 = s[:lenstr // 2]
     part2 = s[lenstr // 2:]
-    part11 = s1[:lenstr // 2]
-    part22 = s1[lenstr // 2:]
     len1 = len(part1)
     len2 = len(part2)
-    # print('Object sort: ', part1, len1, part2, len2)
+    print('Object sort: ', part1, len1, part2, len2)
 
     if len1 > 1:
-        part1, part11 = object_sort(part1, part11)
+        part1 = object_sort(part1)
     if len2 > 1:
-        part2, part22 = object_sort(part2, part22)
+        part2 = object_sort(part2)
 
-    if len1 == 1 or len2 == 1:
-        return part1 + part2, part11 + part22
+    if len1 == 1 and len2 == 1:
+        if part1[0] <= part2[0]:
+            return part1 + part2
+        else:
+            return part2 + part1
 
     i = 0
     j = 0
     while 1 < 10:
         if part1[i] <= part2[j]:
             newlist.append(part1[i])
-            nl1.append(part11[i])
             i += 1
         else:
             newlist.append(part2[j])
-            nl1.append(part22[j])
             j += 1
 
         if i == len1:
             newlist += part2[j:]
-            nl1 += part22[j:]
             break
         if j == len2:
             newlist += part1[i:]
-            nl1 += part11[i:]
             break
-
-    return newlist, nl1
+    
+    #print('End!!!: ', part1, part2, ' -> ', newlist)
+    return newlist
 
 
 # ---------------------------------------------------------------------------------------------------------
@@ -97,7 +93,12 @@ def myBinFind_down(mass, x):
 
 
 def lets_find_Points(sb, se, point):
-    newsb, newse = object_sort(sb, se)
+    if len(sb) > 1:
+        newsb = object_sort(sb)
+        newse = object_sort(se)
+    else:
+        newsb = sb
+        newse = se
     print(newsb, newse)
     pointsadd = []
 
@@ -105,7 +106,7 @@ def lets_find_Points(sb, se, point):
         # return index in list, were all elem left index are small, and right more X
         q = myBinFind_up(newsb, point[i])
         w = myBinFind_down(newse, point[i])
-        print('start, finish: ', q, w)
+    #    print('start, finish: ', point[i], q, w)
         pointsadd.append(q - w)
 
     return pointsadd
@@ -134,11 +135,6 @@ def main():
         Mpoint = []
         for i in range(M):
             Mpoint.append(int(s[i]))
-
-    # n = 15000
-    # s = []
-    # for i in range(n):
-    #    s.append(random.randrange(1000))
 
     print(N, M, sb, se, Mpoint)
 
