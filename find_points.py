@@ -8,21 +8,25 @@ import random
 import time
 
 # ---------------------------------------------------------------------------------------------------------
-
 def object_sort(s, s1):
-    newlist = []    
+    newlist = []
     nl1 = []
     lenstr = len(s)
     part1 = s[:lenstr // 2]
     part2 = s[lenstr // 2:]
     part11 = s1[:lenstr // 2]
-    part22 = s1[lenstr // 2:]    
+    part22 = s1[lenstr // 2:]
     len1 = len(part1)
     len2 = len(part2)
+    # print('Object sort: ', part1, len1, part2, len2)
+
     if len1 > 1:
         part1, part11 = object_sort(part1, part11)
     if len2 > 1:
         part2, part22 = object_sort(part2, part22)
+
+    if len1 == 1 or len2 == 1:
+        return part1 + part2, part11 + part22
 
     i = 0
     j = 0
@@ -38,62 +42,59 @@ def object_sort(s, s1):
 
         if i == len1:
             newlist += part2[j:]
-            nl1 += part22[j:]            
+            nl1 += part22[j:]
             break
         if j == len2:
             newlist += part1[i:]
             nl1 += part11[i:]
             break
 
-    return newlist, nl1    
+    return newlist, nl1
+
 
 # ---------------------------------------------------------------------------------------------------------
 
 
 def myBinFind_up(mass, x):
-    print('start', x, mass)
+    masslen = len(mass)
     if mass[0] > x:
-        return -1
-    if mass[-1] < x:
-        return len(mass) - 1
+        return 0
+    if x >= mass[-1]:
+        return masslen
 
-    l = -1
-    r = len(mass)
+    l = 0
+    r = masslen
+
     while (r - l) != 1:
-        # print('!!!', x, l, r, mass)
-        n = l + ((r - l) // 2)
-        if mass[n] < x:
+        n = (r - l) // 2
+        n = l + n
+        if x >= mass[n]:
             l = n
-        elif mass[n] >= x:
+        else:
             r = n
-    if mass[r] > x:
-        return l
-    else:
-        return r 
+    return r
+
 
 def myBinFind_down(mass, x):
-    print('start', x, mass)
-    if mass[0] > x:
-        return -1
+    masslen = len(mass)
+    if x <= mass[0]:
+        return 0
     if mass[-1] < x:
-        return len(mass) - 1
+        return masslen
 
-    l = -1
-    r = len(mass)
+    l = 0
+    r = masslen
     while (r - l) != 1:
-        # print('!!!', x, l, r, mass)
-        n = l + ((r - l) // 2)
-        if mass[n] <= x:
-            l = n
-        elif mass[n] > x:
+        n = (r - l) // 2
+        n = l + n
+        if x <= mass[n]:
             r = n
-    if mass[r] > x:
-        return l
-    else:
-        return r 
-
+        else:
+            l = n
+    return r
 
 # ---------------------------------------------------------------------------------------------------------
+
 
 def lets_find_Points(sb, se, point):
     newsb, newse = object_sort(sb, se)
@@ -102,8 +103,10 @@ def lets_find_Points(sb, se, point):
 
     for i in range(len(point)):
         # return index in list, were all elem left index are small, and right more X
-        pointsadd.append((myBinFind_up(newsb, point[i]) + 1) - myBinFind_down(newse, point[i]) - 1)
-        
+        q = myBinFind_up(newsb, point[i])
+        w = myBinFind_down(newse, point[i])
+        print('start, finish: ', q, w)
+        pointsadd.append(q - w)
 
     return pointsadd
 
@@ -125,28 +128,33 @@ def main():
         s = input().split(' ')
         sb.append(int(s[0]))
         se.append(int(s[1]))
-    
-    s = input().split(' ')
-    Mpoint = []
-    for i in range(M):
-        Mpoint.append(int(s[i]))
 
-    
-    #n = 15000
-    #s = []
-    #for i in range(n):
+    s = input().split(' ')
+    if M != 0:
+        Mpoint = []
+        for i in range(M):
+            Mpoint.append(int(s[i]))
+
+    # n = 15000
+    # s = []
+    # for i in range(n):
     #    s.append(random.randrange(1000))
 
     print(N, M, sb, se, Mpoint)
 
     # ---------- work block -----------------------------
     start = time.time()
+    if N == 0:
+        for i in range(M):
+            print(0, end = ' ')
+    else:
+        ph = lets_find_Points(sb, se, Mpoint)
+        for i in range(len(ph)):
+            print(ph[i], end=' ')
 
-    ph = lets_find_Points(sb, se, Mpoint)
-
-    end = time.time()    
+    end = time.time()
     # ------------- output block --------------------------
-    print(ph)
+
     print('Worktime for', M, 'items: ', end - start)
 
 
